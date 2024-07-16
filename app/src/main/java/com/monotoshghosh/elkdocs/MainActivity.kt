@@ -1,0 +1,128 @@
+package com.monotoshghosh.elkdocs
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.monotoshghosh.elkdocs.ui.theme.ElkDocsTheme
+import kotlinx.coroutines.delay
+import java.util.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ElkDocsTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Black
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        AnalogClock()
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AnalogClock() {
+    val calendar = Calendar.getInstance()
+    var seconds by remember { mutableStateOf(calendar.get(Calendar.SECOND)) }
+    var minutes by remember { mutableStateOf(calendar.get(Calendar.MINUTE)) }
+    var hours by remember { mutableStateOf(calendar.get(Calendar.HOUR_OF_DAY)) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(1000L)
+            calendar.timeInMillis = System.currentTimeMillis()
+            seconds = calendar.get(Calendar.SECOND)
+            minutes = calendar.get(Calendar.MINUTE)
+            hours = calendar.get(Calendar.HOUR_OF_DAY)
+        }
+    }
+
+    Canvas(modifier = Modifier.size(300.dp)) {
+        val radius = size.minDimension / 2
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+
+        // Draw clock circle
+        drawCircle(
+            color = Color.White,
+            radius = radius,
+            center = androidx.compose.ui.geometry.Offset(centerX, centerY),
+            style = androidx.compose.ui.graphics.drawscope.Stroke(
+                width = 4.dp.toPx()
+            )
+        )
+
+        // Draw clock hands
+        val hourAngle = (hours % 12 + minutes / 60f) * 30 * (PI / 180)
+        val minuteAngle = (minutes + seconds / 60f) * 6 * (PI / 180)
+        val secondAngle = seconds * 6 * (PI / 180)
+
+        drawLine(
+            color = Color.White,
+            start = androidx.compose.ui.geometry.Offset(centerX, centerY),
+            end = androidx.compose.ui.geometry.Offset(
+                centerX + radius * 0.5f * cos(hourAngle - PI / 2).toFloat(),
+                centerY + radius * 0.5f * sin(hourAngle - PI / 2).toFloat()
+            ),
+            strokeWidth = 8.dp.toPx(),
+            cap = StrokeCap.Round
+        )
+
+        drawLine(
+            color = Color.White,
+            start = androidx.compose.ui.geometry.Offset(centerX, centerY),
+            end = androidx.compose.ui.geometry.Offset(
+                centerX + radius * 0.7f * cos(minuteAngle - PI / 2).toFloat(),
+                centerY + radius * 0.7f * sin(minuteAngle - PI / 2).toFloat()
+            ),
+            strokeWidth = 6.dp.toPx(),
+            cap = StrokeCap.Round
+        )
+
+        drawLine(
+            color = Color.Red,
+            start = androidx.compose.ui.geometry.Offset(centerX, centerY),
+            end = androidx.compose.ui.geometry.Offset(
+                centerX + radius * 0.9f * cos(secondAngle - PI / 2).toFloat(),
+                centerY + radius * 0.9f * sin(secondAngle - PI / 2).toFloat()
+            ),
+            strokeWidth = 4.dp.toPx(),
+            cap = StrokeCap.Round
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AnalogClockPreview() {
+    ElkDocsTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color.Black
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                AnalogClock()
+            }
+        }
+    }
+}
