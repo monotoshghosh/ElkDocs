@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,10 +28,10 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                    color = Color.Black // Set background color to black
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        AnalogClock()
+                        AnalogClock() // Display the analog clock in the center
                     }
                 }
             }
@@ -49,7 +48,7 @@ fun AnalogClock() {
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(1000L)
+            delay(1000L) // Update every second
             calendar.timeInMillis = System.currentTimeMillis()
             seconds = calendar.get(Calendar.SECOND)
             minutes = calendar.get(Calendar.MINUTE)
@@ -72,13 +71,14 @@ fun AnalogClock() {
             )
         )
 
-        // Draw clock hands
+        // Calculate angles for the clock hands
         val hourAngle = (hours % 12 + minutes / 60f) * 30 * (PI / 180)
         val minuteAngle = (minutes + seconds / 60f) * 6 * (PI / 180)
         val secondAngle = seconds * 6 * (PI / 180)
 
+        // Draw hour hand (red)
         drawLine(
-            color = Color.White,
+            color = Color.Red,
             start = androidx.compose.ui.geometry.Offset(centerX, centerY),
             end = androidx.compose.ui.geometry.Offset(
                 centerX + radius * 0.5f * cos(hourAngle - PI / 2).toFloat(),
@@ -88,8 +88,9 @@ fun AnalogClock() {
             cap = StrokeCap.Round
         )
 
+        // Draw minute hand (blue)
         drawLine(
-            color = Color.White,
+            color = Color.Blue,
             start = androidx.compose.ui.geometry.Offset(centerX, centerY),
             end = androidx.compose.ui.geometry.Offset(
                 centerX + radius * 0.7f * cos(minuteAngle - PI / 2).toFloat(),
@@ -99,8 +100,9 @@ fun AnalogClock() {
             cap = StrokeCap.Round
         )
 
+        // Draw second hand (yellow)
         drawLine(
-            color = Color.Red,
+            color = Color.Yellow,
             start = androidx.compose.ui.geometry.Offset(centerX, centerY),
             end = androidx.compose.ui.geometry.Offset(
                 centerX + radius * 0.9f * cos(secondAngle - PI / 2).toFloat(),
@@ -118,10 +120,10 @@ fun AnalogClockPreview() {
     ElkDocsTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Color.Black
+            color = Color.Black // Set background color to black
         ) {
             Box(contentAlignment = Alignment.Center) {
-                AnalogClock()
+                AnalogClock() // Display the analog clock in the center
             }
         }
     }
