@@ -3,8 +3,11 @@ package com.monotoshghosh.elkdocs
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.monotoshghosh.elkdocs.ui.theme.ElkDocsTheme
 import kotlinx.coroutines.delay
 import java.util.*
@@ -56,10 +60,31 @@ fun AnalogClock() {
         }
     }
 
+    val boundarySize = remember { Animatable(1f) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            boundarySize.animateTo(1.1f, animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
+            ))
+            boundarySize.animateTo(1f, animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing))
+        }
+    }
+
     Canvas(modifier = Modifier.size(300.dp)) {
         val radius = size.minDimension / 2
         val centerX = size.width / 2
         val centerY = size.height / 2
+
+        // Draw pulsating boundary
+        drawCircle(
+            color = Color(0xFF33691E), // Adjust color as needed
+            radius = radius * boundarySize.value,
+            center = androidx.compose.ui.geometry.Offset(centerX, centerY),
+            style = androidx.compose.ui.graphics.drawscope.Stroke(
+                width = 8.dp.toPx()
+            )
+        )
 
         // Draw clock circle
         drawCircle(
