@@ -129,19 +129,19 @@ fun AnimatedAnalogClock() {
                 style = Stroke(width = 8.dp.toPx())
             )
 
-            // Draw left pulsating circle (previously top circle)
+            // Draw left pulsating circle (previously top circle) with increased size and closer position
             drawCircle(
                 color = Color.White.copy(alpha = 0.7f),
-                radius = radius * 0.1f * topCirclePulse.value,
-                center = androidx.compose.ui.geometry.Offset(centerX - radius * 0.7f, centerY), // Change position to the left
+                radius = radius * 0.15f * topCirclePulse.value, // Increased size
+                center = androidx.compose.ui.geometry.Offset(centerX - radius * 0.55f, centerY), // Move closer to the center
                 style = Stroke(width = 3.dp.toPx())
             )
 
-            // Draw right pulsating circle (previously bottom circle)
+            // Draw right pulsating circle (previously bottom circle) with increased size and closer position
             drawCircle(
                 color = Color.White.copy(alpha = 0.7f),
-                radius = radius * 0.1f * bottomCirclePulse.value,
-                center = androidx.compose.ui.geometry.Offset(centerX + radius * 0.7f, centerY), // Change position to the right
+                radius = radius * 0.15f * bottomCirclePulse.value, // Increased size
+                center = androidx.compose.ui.geometry.Offset(centerX + radius * 0.55f, centerY), // Move closer to the center
                 style = Stroke(width = 3.dp.toPx())
             )
 
@@ -201,10 +201,10 @@ fun AnimatedAnalogClock() {
             // Draw needle in left pulsating circle (representing seconds)
             drawLine(
                 color = Color.Yellow,
-                start = androidx.compose.ui.geometry.Offset(centerX - radius * 0.7f, centerY), // Change position to the left
+                start = androidx.compose.ui.geometry.Offset(centerX - radius * 0.55f, centerY), // Move closer to the center
                 end = androidx.compose.ui.geometry.Offset(
-                    centerX - radius * 0.7f + radius * 0.07f * cos(leftCircleAngle - PI / 2).toFloat(), // Adjust the needle position
-                    centerY + radius * 0.07f * sin(leftCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                    centerX - radius * 0.55f + radius * 0.12f * cos(leftCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.12f * sin(leftCircleAngle - PI / 2).toFloat() // Adjust the needle position
                 ),
                 strokeWidth = 2.dp.toPx(),
                 cap = StrokeCap.Round
@@ -213,10 +213,10 @@ fun AnimatedAnalogClock() {
             // Draw needle in right pulsating circle (representing minutes)
             drawLine(
                 color = Color.Blue,
-                start = androidx.compose.ui.geometry.Offset(centerX + radius * 0.7f, centerY), // Change position to the right
+                start = androidx.compose.ui.geometry.Offset(centerX + radius * 0.55f, centerY), // Move closer to the center
                 end = androidx.compose.ui.geometry.Offset(
-                    centerX + radius * 0.7f + radius * 0.07f * cos(rightCircleAngle - PI / 2).toFloat(), // Adjust the needle position
-                    centerY + radius * 0.07f * sin(rightCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                    centerX + radius * 0.55f + radius * 0.12f * cos(rightCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.12f * sin(rightCircleAngle - PI / 2).toFloat() // Adjust the needle position
                 ),
                 strokeWidth = 2.dp.toPx(),
                 cap = StrokeCap.Round
