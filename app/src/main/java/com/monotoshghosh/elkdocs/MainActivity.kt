@@ -23,6 +23,8 @@ import java.util.Calendar
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        // Set status bar color to black and icons to white
+        val window = window
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.statusBarColor = android.graphics.Color.BLACK
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
     }
 }
 
