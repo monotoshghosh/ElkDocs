@@ -203,8 +203,8 @@ fun AnimatedAnalogClock() {
                 color = Color.Yellow,
                 start = androidx.compose.ui.geometry.Offset(centerX - radius * 0.7f, centerY), // Change position to the left
                 end = androidx.compose.ui.geometry.Offset(
-                    centerX - radius * 0.7f + radius * 0.1f * cos(leftCircleAngle - PI / 2).toFloat(), // Adjust the needle position
-                    centerY + radius * 0.1f * sin(leftCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                    centerX - radius * 0.7f + radius * 0.07f * cos(leftCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.07f * sin(leftCircleAngle - PI / 2).toFloat() // Adjust the needle position
                 ),
                 strokeWidth = 2.dp.toPx(),
                 cap = StrokeCap.Round
@@ -215,8 +215,8 @@ fun AnimatedAnalogClock() {
                 color = Color.Blue,
                 start = androidx.compose.ui.geometry.Offset(centerX + radius * 0.7f, centerY), // Change position to the right
                 end = androidx.compose.ui.geometry.Offset(
-                    centerX + radius * 0.7f + radius * 0.1f * cos(rightCircleAngle - PI / 2).toFloat(), // Adjust the needle position
-                    centerY + radius * 0.1f * sin(rightCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                    centerX + radius * 0.7f + radius * 0.07f * cos(rightCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.07f * sin(rightCircleAngle - PI / 2).toFloat() // Adjust the needle position
                 ),
                 strokeWidth = 2.dp.toPx(),
                 cap = StrokeCap.Round
