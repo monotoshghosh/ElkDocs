@@ -121,28 +121,20 @@ fun AnimatedAnalogClock() {
                 style = Stroke(width = 8.dp.toPx())
             )
 
-            // Draw top pulsating circle
+            // Draw left pulsating circle (previously top circle)
             drawCircle(
                 color = Color.White.copy(alpha = 0.7f),
                 radius = radius * 0.1f * topCirclePulse.value,
-                center = androidx.compose.ui.geometry.Offset(centerX, centerY - radius * 0.7f),
-                style = Stroke(width = 4.dp.toPx())
+                center = androidx.compose.ui.geometry.Offset(centerX - radius * 0.7f, centerY), // Change position to the left
+                style = Stroke(width = 3.dp.toPx())
             )
 
-            // Draw bottom pulsating circle
+            // Draw right pulsating circle (previously bottom circle)
             drawCircle(
                 color = Color.White.copy(alpha = 0.7f),
                 radius = radius * 0.1f * bottomCirclePulse.value,
-                center = androidx.compose.ui.geometry.Offset(centerX, centerY + radius * 0.7f),
-                style = Stroke(width = 4.dp.toPx())
-            )
-
-            // Draw clock circle
-            drawCircle(
-                color = Color.White,
-                radius = radius,
-                center = androidx.compose.ui.geometry.Offset(centerX, centerY),
-                style = Stroke(width = 4.dp.toPx())
+                center = androidx.compose.ui.geometry.Offset(centerX + radius * 0.7f, centerY), // Change position to the right
+                style = Stroke(width = 3.dp.toPx())
             )
 
             // Calculate angles for the clock hands
@@ -183,6 +175,42 @@ fun AnimatedAnalogClock() {
                     centerY + radius * 0.9f * sin(secondAngle - PI / 2).toFloat()
                 ),
                 strokeWidth = 4.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+
+            // Draw clock circle
+            drawCircle(
+                color = Color.White,
+                radius = radius,
+                center = androidx.compose.ui.geometry.Offset(centerX, centerY),
+                style = Stroke(width = 4.dp.toPx())
+            )
+
+            // Draw separate needles in the small grey circles
+            val leftCircleAngle = (seconds % 60) * 6 * (PI / 180) // Top circle needle
+            val rightCircleAngle = (minutes % 60) * 6 * (PI / 180) // Bottom circle needle
+
+            // Draw needle in left pulsating circle (representing seconds)
+            drawLine(
+                color = Color.Yellow,
+                start = androidx.compose.ui.geometry.Offset(centerX - radius * 0.7f, centerY), // Change position to the left
+                end = androidx.compose.ui.geometry.Offset(
+                    centerX - radius * 0.7f + radius * 0.1f * cos(leftCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.1f * sin(leftCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                ),
+                strokeWidth = 2.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+
+            // Draw needle in right pulsating circle (representing minutes)
+            drawLine(
+                color = Color.Blue,
+                start = androidx.compose.ui.geometry.Offset(centerX + radius * 0.7f, centerY), // Change position to the right
+                end = androidx.compose.ui.geometry.Offset(
+                    centerX + radius * 0.7f + radius * 0.1f * cos(rightCircleAngle - PI / 2).toFloat(), // Adjust the needle position
+                    centerY + radius * 0.1f * sin(rightCircleAngle - PI / 2).toFloat() // Adjust the needle position
+                ),
+                strokeWidth = 2.dp.toPx(),
                 cap = StrokeCap.Round
             )
         }
